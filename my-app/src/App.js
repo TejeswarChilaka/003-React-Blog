@@ -5,6 +5,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ArticlePage from "./pages/ArticlePage";
 import ArticlesListPage from "./pages/ArticlesListPage";
 import HomePage from "./pages/HomePage";
+import NavBar from "./NavBar";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <h1> First React App</h1>
+          <NavBar></NavBar>
           <div id="page-body">
             <Routes>
               <Route path="/" element={<HomePage />}></Route>
