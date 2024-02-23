@@ -1,20 +1,28 @@
-
-import './App.css';
-import AboutPage from './pages/AboutPage';
-import NotFoundPage from './pages/NotFoundPage';
-import ArticlePage from './pages/ArticlePage';
-import ArticlesPage from './pages/ArticlesListPage';
-import HomePage from './pages/HomePage';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import AboutPage from "./pages/AboutPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import ArticlePage from "./pages/ArticlePage";
+import ArticlesListPage from "./pages/ArticlesListPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <>
-    Hello React
-    <AboutPage></AboutPage>
-    <ArticlePage></ArticlePage>
-    <ArticlesPage></ArticlesPage>
-    <HomePage></HomePage>
-    <NotFoundPage></NotFoundPage>
+      <BrowserRouter>
+        <div className="App">
+          <h1> First React App</h1>
+          <div id="page-body">
+            <Routes>
+              <Route path="/" element={<HomePage />}></Route>
+              <Route path="/About" element={<AboutPage />}></Route>
+              <Route path="/Articles" element={<ArticlesListPage />}></Route>
+              <Route path="/Articles/:article" element={<ArticlePage />}></Route>
+              <Route path="/*" element={<NotFoundPage />}></Route>
+            </Routes>
+          </div>
+        </div>
+      </BrowserRouter>
     </>
   );
 }
