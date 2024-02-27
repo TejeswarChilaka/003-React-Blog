@@ -4,7 +4,7 @@ import NotFoundPage from "./NotFoundPage";
 
 function ArticlePage() {
   const { articleId } = useParams();
-  const article = articles.find((article) => article.name === articleId);
+  const article = articles.find(article => article.name === articleId);
  
   if (article) {
     return (
