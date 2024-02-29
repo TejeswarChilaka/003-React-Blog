@@ -1,27 +1,23 @@
 import express from "express";
-
-let articleInfo =[
-  {
-     name: 'split-js',
-     likes: 0,
-     comments: []
-  },
-  {
-    name: 'map-js',
-    likes: 0,
-    comments: []
- },
- {
-  name: 'filter-js',
-  likes: 0,
-  comments: []
-}
-];
+import { MongoClient } from "mongodb";
 
 const app = express();
 app.use(express.json());
 
 const findArticle =(name) => articleInfo.find((article) => article.name === name);
+
+app.get('/api/articles/:name',async (req,res) =>{
+  const {name} = req.params;
+  const client = new MongoClient('mongodb://127.0.0.0:27017');
+  await client.connect();
+  const db = client.db("react-blog-db");
+  const article = await db.collection("articles").findOne({ name});
+  if (article){
+    res.json(article);
+  } else {
+    res.sendStatus(404);
+  }
+});
 
 app.put("/api/articles/:name/likes", (req, res) => {
  const { name } = req.params;
