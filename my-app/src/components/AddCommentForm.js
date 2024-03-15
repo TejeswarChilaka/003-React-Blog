@@ -39,3 +39,5 @@ const AddCommentForm = ({articleName,onArticleUpdated}) => {
         </div>
     )
 }
+
+export default AddCommentForm;
