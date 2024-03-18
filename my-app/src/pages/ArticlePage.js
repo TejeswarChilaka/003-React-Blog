@@ -25,7 +25,7 @@ function ArticlePage() {
     const response = await axios.put(`/api/articles/${articleId}/likes`);
     const updatedArticle = response.data;
     setArticleInfo(updatedArticle);
-  };
+  };  
   
   if (article) {
     return (

@@ -5,7 +5,7 @@ const AddCommentForm = ({articleName,onArticleUpdated}) => {
     const [name,setName] = useState('');
     const [commentText,setCommentText] = useState('');
 
-    const addComment = async () =>{
+    const addComment = async () => {
         const response = await axios.post(`/api/articles/${articleName}/comments`,{
             by: name,
             comment: commentText
