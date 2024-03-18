@@ -31,11 +31,11 @@ const AddCommentForm = ({articleName,onArticleUpdated}) => {
                 Comments:
                 <input
                       value={commentText}
-                      onChange={e=>setCommentText(e.target.value)}
+                      onChange={e => setCommentText(e.target.value)}
                       rows="4"
                       cols="50"/>
             </label>
-            <button onClick = {addComment}>Send Comment</button>
+            <button onClick = {addComment}> Send Comment</button>
         </div>
     )
 }

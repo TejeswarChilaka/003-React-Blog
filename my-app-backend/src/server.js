@@ -53,7 +53,7 @@ import { db, connectToDb } from "./db.js";
 const app = express();
 app.use(express.json());
 
-app.get(`/app/articles/:name/name`, async (req, res) => {
+app.get(`/api/articles/:name`, async (req, res) => {
   const { name } = req.params;
 
   const article = await db.collection("articles").findOne({ name });
@@ -78,12 +78,10 @@ app.put("/api/articles/:name/likes", async (req, res) => {
 app.post("/api/articles/:name/comments", async (req, res) => {
   const { name } = req.params;
   const { by, comment } = req.body;
-  await db
-    .collection("articles")
-    .updateOne({ name }, { $push: { comments: [] } });
+
+  await db.collection("articles").updateOne({ name }, { $push: { comments: {by,comment} } });
   const article = await db.collection("articles").findOne({ name });
   if (article) {
-    article.comments.push({ by, comment });
     res.json(article);
   } else {
     res.send("Article not Found");

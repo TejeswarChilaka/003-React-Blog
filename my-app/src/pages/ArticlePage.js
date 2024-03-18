@@ -7,8 +7,8 @@ import AddCommentForm from "../components/AddCommentForm";
 import CommentList from "../components/CommentList";
 
 function ArticlePage() {
-  const { articleId } = useParams();
   const [articleInfo, setArticleInfo] = useState({ likes: 0, comments: [] });
+  const { articleId } = useParams();
 
   useEffect(() => {
     const loadArticleInfo = async () => {
@@ -19,10 +19,10 @@ function ArticlePage() {
     loadArticleInfo();
   }, []);
 
-  const article = articles.find((article) => article.name === articleId);
+  const article = articles.find(article => article.name === articleId);
 
   const addLikes = async () => {
-    const response = await axios.put(`/api/articles/${articleId}/likes)`);
+    const response = await axios.put(`/api/articles/${articleId}/likes`);
     const updatedArticle = response.data;
     setArticleInfo(updatedArticle);
   };
