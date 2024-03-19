@@ -88,6 +88,17 @@ app.post("/api/articles/:name/comments", async (req, res) => {
   }
 });
 
+app.get('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await db.collection("loginInfo").findOne({ username, password });
+  if (user) {
+    res.json({ success: true, message: 'Login successful' });
+  } else {
+    res.status(401).json({ success: false, message: 'Invalid username or password' });
+  }
+});
+
+
  connectToDb(() => {
     console.log("Successfully connected to database");
     app.listen(8000, () => {
