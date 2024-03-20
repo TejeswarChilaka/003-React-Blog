@@ -16,12 +16,12 @@ const CreateAccountPage = () => {
   const createAccount = async (event) => {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
     try {
+      if (password !== confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
+      
       await createUserWithEmailAndPassword(getAuth(), email, password);
       navigate("/login");
     } catch (error) {
