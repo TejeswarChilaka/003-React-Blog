@@ -7,6 +7,7 @@ import ArticlesListPage from "./pages/ArticlesListPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./NavBar";
 import LoginPage from "./pages/LoginPage";
+import CreateAccountPage from "./pages/CreateAccountPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/articles" element={<ArticlesListPage />}></Route>
               <Route path="/articles/:articleId" element={<ArticlePage />}></Route>
               <Route path="/login" element={<LoginPage />}></Route>
+              <Route path="/create-account" element={<CreateAccountPage />}></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Routes>
           </div>
