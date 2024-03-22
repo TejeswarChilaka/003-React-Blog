@@ -14,7 +14,12 @@ function ArticlePage() {
 
   useEffect(() => {
     const loadArticleInfo = async () => {
-      const response = await axios.get(`/api/articles/${articleId}`);
+      const token = user && (await user.getIdToken());
+      const headers = token ? { authtoken: token } : {};
+
+      const response = await axios.get(`/api/articles/${articleId}`, {
+        headers,
+      });
       const newArticleInfo = response.data;
       setArticleInfo(newArticleInfo);
     };
@@ -24,7 +29,12 @@ function ArticlePage() {
   const article = articles.find((article) => article.name === articleId);
 
   const addLikes = async () => {
-    const response = await axios.put(`/api/articles/${articleId}/likes`);
+    const token = user && (await user.getIdToken());
+    const headers = token ? { authtoken: token } : {}; 
+
+    const response = await axios.put(`/api/articles/${articleId}/likes`, null, {
+      headers,
+    });
     const updatedArticle = response.data;
     setArticleInfo(updatedArticle);
   };
@@ -57,7 +67,7 @@ function ArticlePage() {
           ></AddCommentForm>
         ) : (
           <Link to="/login">
-            <button>Log in to comment</button>
+             <button>Log in to comment</button>
           </Link>
         )}
 

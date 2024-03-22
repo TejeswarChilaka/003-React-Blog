@@ -22,7 +22,10 @@ app.use(async (req, res, next) => {
       res.sendStatus(400);
     }
   }
+
+  req.user = req.user || {};
   next();
+
 });
 
 app.get(`/api/articles/:name`, async (req, res) => {
@@ -32,7 +35,7 @@ app.get(`/api/articles/:name`, async (req, res) => {
   const article = await db.collection("articles").findOne({ name });
   if (article) {
     const likeIds = article.likeIds || [];
-    article.canLike = uid && !likeIds.include(uid);
+    article.canLike = uid && !likeIds.includes(uid);
     res.json(article);
   } else {
     res.sendStatus(404);
@@ -52,11 +55,11 @@ app.put("/api/articles/:name/likes", async (req, res) => {
   const { name } = req.params;
   const { uid } = req.user;
 
-  const article = await db.collection("articles").findOne({ name });
+  const article = await db.collection("articles").findOne({ name }); 
 
   if (article) {
     const likeIds = article.likeIds || [];
-    const canLike = uid && !likeIds.include(uid);
+    const canLike = uid && !likeIds.includes(uid);
 
     if (canLike) {
       await db
@@ -86,6 +89,7 @@ app.post("/api/articles/:name/comments", async (req, res) => {
     res.send("Article not Found");
   }
 });
+
 
 app.get("/api/login", async (req, res) => {
   const { username, password } = req.body;
