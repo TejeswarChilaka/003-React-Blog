@@ -54,18 +54,27 @@ app.use((req, res, next) => {
 app.put("/api/articles/:name/likes", async (req, res) => {
   const { name } = req.params;
   const { uid } = req.user;
+  //const {action} = req.body;
 
   const article = await db.collection("articles").findOne({ name }); 
 
   if (article) {
     const likeIds = article.likeIds || [];
-    const canLike = uid && !likeIds.includes(uid);
+    const canLike = uid && likeIds.includes(uid);
 
-    if (canLike) {
-      await db
-        .collection("articles")
-        .updateOne({ name }, { $inc: { likes: 1 }, $push: { likeIds: uid } });
+    if ( canLike) {
+      await db.collection("articles").updateOne(
+        { name },
+        { $inc: { likes: -1 }, $pull: { likeIds: uid } }
+      );
+    } else {
+      await db.collection("articles").updateOne(
+        { name },
+        { $inc: { likes: 1 }, $push: { likeIds: uid } }
+      );
     }
+  
+
     const updatedArticle = await db.collection("articles").findOne({ name });
     res.send(updatedArticle);
   } else {

@@ -11,6 +11,8 @@ function ArticlePage() {
   const [articleInfo, setArticleInfo] = useState({ likes: 0, comments: [] });
   const { articleId } = useParams();
   const { user, isLoading } = useUser();
+  const [ liked, setLiked ] = useState(true);
+  
 
   useEffect(() => {
     const loadArticleInfo = async () => {
@@ -22,6 +24,7 @@ function ArticlePage() {
       });
       const newArticleInfo = response.data;
       setArticleInfo(newArticleInfo);
+      
     };
     loadArticleInfo();
   }, []);
@@ -30,13 +33,14 @@ function ArticlePage() {
 
   const addLikes = async () => {
     const token = user && (await user.getIdToken());
-    const headers = token ? { authtoken: token } : {}; 
+    const headers = token ? { authtoken: token } : {};
 
     const response = await axios.put(`/api/articles/${articleId}/likes`, null, {
       headers,
     });
     const updatedArticle = response.data;
     setArticleInfo(updatedArticle);
+    setLiked(!liked);
   };
 
   if (article) {
@@ -45,7 +49,9 @@ function ArticlePage() {
         <h1>{article.title}</h1>
         <div className="upvote-section">
           {user ? (
-            <button onClick={addLikes}>Like</button>
+            <button onClick={addLikes}>
+              {liked ? "Like" : "Dislike"}
+            </button>
           ) : (
             <Link to="/login">
               <button>Log in to like</button>
@@ -67,7 +73,7 @@ function ArticlePage() {
           ></AddCommentForm>
         ) : (
           <Link to="/login">
-             <button>Log in to comment</button>
+            <button>Log in to comment</button>
           </Link>
         )}
 
