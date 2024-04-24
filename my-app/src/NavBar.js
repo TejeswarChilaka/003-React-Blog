@@ -1,16 +1,48 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+import useUser from "./hooks/useUser";
 
-const NavBar = () =>{
-    return(
-      <nav>
-        <ul>
-            <li> <Link to = "/">Home</Link></li>
-            <li> <Link to = "/about">About</Link></li>
-            <li> <Link to = "/articles">Articles</Link></li>
-            <li> <Link to = "/login">LogIn</Link></li>
-        </ul>
-      </nav>
-    );
-}
+const NavBar = () => {
+  const { user } = useUser();
+  const navigate = useNavigate();
+  return (
+    <nav>
+      <ul>
+        <li>
+          {" "}
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          {" "}
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          {" "}
+          <Link to="/articles">Articles</Link>
+        </li>
+      </ul>
+
+      <div className="nav-right">
+        {user ? (
+          <button
+            onClick={() => {
+              signOut(getAuth());
+            }}
+          >
+            LogOut
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            LogIn
+          </button>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 export default NavBar;

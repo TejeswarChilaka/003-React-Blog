@@ -8,7 +8,7 @@ function ArticlesListPage(){
     return(
     <>
     <h1> List of Articles</h1>
-   <ArticlesList articles = {articles}></ArticlesList>
+   <ArticlesList articles = {articles}></ArticlesList> 
     </>     
     );
 }

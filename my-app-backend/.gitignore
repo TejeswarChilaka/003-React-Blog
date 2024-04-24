@@ -6,6 +6,7 @@
 .pnp.js
 /mongodbdata
 /firebase-adminsdk.json
+build
 
 # testing
 /coverage

@@ -13,7 +13,7 @@ const AddCommentForm = ({ articleName, onArticleUpdated }) => {
 
     const response = await axios.post(
       `/api/articles/${articleName}/comments`,
-      { 
+      {
         by: name,
         comment: commentText,
       },
@@ -25,27 +25,17 @@ const AddCommentForm = ({ articleName, onArticleUpdated }) => {
     setName("");
     setCommentText("");
   };
-  
+
   return (
     <div id="add-comment-form">
       <h3>Add Comments</h3>
-      <label>
-        Name:
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          type="text"
-        />
-      </label>
-      <label>
-        Comments:
-        <input
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-          rows="4"
-          cols="50"
-        />
-      </label>
+      {user && <p>Posting as {user.email}</p>}
+      <textarea
+        value={commentText}
+        onChange={(e) => setCommentText(e.target.value)}
+        rows="10"
+        cols="30"
+      ></textarea>
       <button onClick={addComment}> Send Comment</button>
     </div>
   );

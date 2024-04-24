@@ -8,11 +8,15 @@ import CommentList from "../components/CommentList";
 import useUser from "../hooks/useUser";
 
 function ArticlePage() {
-  const [articleInfo, setArticleInfo] = useState({ likes: 0, comments: [] });
+  const [articleInfo, setArticleInfo] = useState({
+    likes: 0,
+    comments: [],
+    canLike: true
+  });
   const { articleId } = useParams();
   const { user, isLoading } = useUser();
-  const [ liked, setLiked ] = useState(true);
-  
+  const { canLike } = articleInfo;
+  // const [liked, setLiked] = useState(true);
 
   useEffect(() => {
     const loadArticleInfo = async () => {
@@ -21,13 +25,14 @@ function ArticlePage() {
 
       const response = await axios.get(`/api/articles/${articleId}`, {
         headers,
-      });
+      }); 
       const newArticleInfo = response.data;
       setArticleInfo(newArticleInfo);
-      
     };
-    loadArticleInfo();
-  }, []);
+    if ( isLoading) {
+      loadArticleInfo();
+    }
+  }, [isLoading, user]);
 
   const article = articles.find((article) => article.name === articleId);
 
@@ -40,7 +45,7 @@ function ArticlePage() {
     });
     const updatedArticle = response.data;
     setArticleInfo(updatedArticle);
-    setLiked(!liked);
+    // setLiked(!liked);
   };
 
   if (article) {
@@ -49,9 +54,7 @@ function ArticlePage() {
         <h1>{article.title}</h1>
         <div className="upvote-section">
           {user ? (
-            <button onClick={addLikes}>
-              {liked ? "Like" : "Dislike"}
-            </button>
+            <button onClick={addLikes}>{canLike ? "Like" : "Already liked"}</button>
           ) : (
             <Link to="/login">
               <button>Log in to like</button>
